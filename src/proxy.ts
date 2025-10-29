@@ -16,10 +16,23 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    // Use the incoming request origin to avoid SSL mismatch
-    const baseUrl = request.nextUrl.origin;
+    // Build same-origin absolute URL
+    const url = new URL('/api/settings', request.url);
 
-    const settingsResponse = await fetch(`${baseUrl}/api/settings`, {
+    // In development, if origin is https (behind proxy), force http for local/server that lacks TLS
+    if (process.env.NODE_ENV !== 'production') {
+      const host = request.headers.get('host') || url.host;
+      const isLocal =
+        host.includes('localhost') ||
+        /^(\d{1,3}\.){3}\d{1,3}(:\d+)?$/.test(host); // IPv4 with optional port
+
+      if (isLocal) {
+        url.protocol = 'http:';
+        url.host = host; // keep original host:port
+      }
+    }
+
+    const settingsResponse = await fetch(url.toString(), {
       cache: 'no-store',
       headers: {
         'User-Agent': 'NextJS-Middleware/1.0',
@@ -34,8 +47,8 @@ export async function proxy(request: NextRequest) {
       }
     }
   } catch (error) {
-    console.error('Proxy error checking maintenance mode:', error);
-    // Continue without maintenance check if there's an error
+    // Avoid noisy logs in dev; continue without the maintenance check
+    console.warn('Proxy maintenance check skipped due to fetch error.');
   }
 
   return NextResponse.next();
