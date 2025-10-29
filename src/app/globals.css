@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #0B0C10;
+  --foreground: #ffffff;
+  --primary-dark: #0B0C10;
+  --primary-secondary: #1F2833;
+  --primary-accent: #00FFF5;
+  --neon-cyan: #00FFF5;
+  --neon-blue: #0099FF;
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px #00FFF5, 0 0 10px #00FFF5, 0 0 15px #00FFF5; }
+  100% { box-shadow: 0 0 10px #00FFF5, 0 0 20px #00FFF5, 0 0 30px #00FFF5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+
+/* Admin login page specific styles */
+.admin-login-page nav[class*="sticky top-0"] {
+  display: none !important;
+}
