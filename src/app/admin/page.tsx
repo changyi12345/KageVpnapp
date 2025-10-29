@@ -1040,7 +1040,7 @@ function OrdersManagement({ searchTerm, setSearchTerm, showNotification }: {
   };
 
   return (
-    <div>
+    <div suppressHydrationWarning>
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>

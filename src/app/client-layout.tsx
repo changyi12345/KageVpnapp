@@ -15,12 +15,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const isAdminRoute = pathname?.startsWith('/admin');
   
   return (
-    <AuthProvider>
-      <AdminAuthProvider>
-        <div suppressHydrationWarning className="relative isolate">
+    <div suppressHydrationWarning className="relative isolate">
+      <AuthProvider>
+        <AdminAuthProvider>
           {children}
-        </div>
-      </AdminAuthProvider>
-    </AuthProvider>
+        </AdminAuthProvider>
+      </AuthProvider>
+    </div>
   );
 }

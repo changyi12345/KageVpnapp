@@ -95,7 +95,7 @@ const testimonials = [
   },
 ];
 
-export default function HomePage() {
+export default function HomePage(props: { params: any; searchParams: any }) {
   const [allProducts, setAllProducts] = useState<HomeProduct[]>([]);
   const [displayedProducts, setDisplayedProducts] = useState<HomeProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -243,7 +243,7 @@ export default function HomePage() {
   }, [allProducts]);
 
   return (
-    <div className="min-h-screen bg-primary-dark text-white">
+    <div suppressHydrationWarning className="min-h-screen bg-primary-dark text-white">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-dark via-primary-secondary to-primary-dark"></div>

@@ -10,10 +10,7 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-sans" 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        suppressHydrationWarning
-        className="min-h-dvh bg-gradient-to-b from-[#050a1f] to-[#0a173a] text-white antialiased"
-      >
+      <body suppressHydrationWarning className="min-h-dvh bg-gradient-to-b from-[#050a1f] to-[#0a173a] text-white antialiased">
         <ClientRoot>{children}</ClientRoot>
       </body>
     </html>
