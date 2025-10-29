@@ -196,13 +196,14 @@ export default function AdminPaymentsPage() {
 
   return (
     <>
-      {/* Hide default navigation */}
+      {/* Removed global styled-jsx rule that hid nav */}
+      {/* 
       <style jsx global>{`
         nav[class*="sticky top-0"] {
           display: none !important;
         }
       `}</style>
-
+      */}
       <div className="min-h-screen bg-primary-dark text-white">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}

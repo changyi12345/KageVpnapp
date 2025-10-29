@@ -3513,14 +3513,7 @@ export default function AdminDashboard(props: { params: any; searchParams: any }
 
   return (
     <div>
-      {/* Hide default navigation for admin pages */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          nav[class*="sticky top-0"] {
-            display: none !important;
-          }
-        `
-      }} />
+      {/* Admin dashboard should use site navigation */}
       
       <div className="min-h-screen bg-primary-dark text-white">
         <div className="flex">

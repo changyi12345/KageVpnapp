@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip check for admin, API, maintenance, and static assets
+  // Skip for admin, API, maintenance, and static assets
   if (
     pathname.startsWith('/admin') ||
     pathname.startsWith('/api') ||
@@ -19,7 +19,7 @@ export default async function proxy(request: NextRequest) {
     // Same-origin absolute URL
     const url = new URL('/api/settings', request.url);
 
-    // Dev servers typically run without TLS; force http for localhost/LAN
+    // Dev: force http for localhost/LAN to avoid ERR_SSL_WRONG_VERSION_NUMBER
     if (process.env.NODE_ENV !== 'production') {
       const host = request.headers.get('host') || url.host;
       const isLocal =
@@ -34,10 +34,7 @@ export default async function proxy(request: NextRequest) {
 
     const settingsResponse = await fetch(url.toString(), {
       cache: 'no-store',
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'NextJS-Proxy/1.0',
-      },
+      headers: { Accept: 'application/json' },
     });
 
     if (settingsResponse.ok) {
@@ -47,8 +44,7 @@ export default async function proxy(request: NextRequest) {
       }
     }
   } catch {
-    // Soft-fail: continue without redirect on fetch errors
-    // Avoid noisy logs during dev
+    // Soft-fail on fetch errors
   }
 
   return NextResponse.next();

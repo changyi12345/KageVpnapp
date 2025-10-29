@@ -18,7 +18,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <div suppressHydrationWarning className="relative isolate">
       <AuthProvider>
         <AdminAuthProvider>
+          {!isAdminRoute && <Navigation />}
           {children}
+          {!isAdminRoute && <Footer />}
+          <ToastContainer toasts={toasts} onClose={removeToast} />
+          {!isAdminRoute && <ChatWidget />}
         </AdminAuthProvider>
       </AuthProvider>
     </div>
