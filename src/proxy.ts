@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
   // Skip maintenance check for admin routes, API routes, and maintenance page itself
   if (
     pathname.startsWith('/admin') ||
@@ -16,18 +16,17 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    // Force HTTP for internal requests to avoid SSL issues
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? `https://${request.nextUrl.host}` 
-      : `http://localhost:${process.env.PORT || 3000}`;
-    
+    // Use the incoming request origin to avoid SSL mismatch
+    const baseUrl = request.nextUrl.origin;
+
     const settingsResponse = await fetch(`${baseUrl}/api/settings`, {
+      cache: 'no-store',
       headers: {
         'User-Agent': 'NextJS-Middleware/1.0',
         'Accept': 'application/json',
       },
     });
-    
+
     if (settingsResponse.ok) {
       const settings = await settingsResponse.json();
       if (settings.maintenanceMode) {
@@ -44,13 +43,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };
