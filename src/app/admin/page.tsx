@@ -3513,8 +3513,6 @@ export default function AdminDashboard(props: { params: any; searchParams: any }
 
   return (
     <div>
-      {/* Admin dashboard should use site navigation */}
-      
       <div className="min-h-screen bg-primary-dark text-white">
         <div className="flex">
         {/* Enhanced Sidebar */}

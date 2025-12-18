@@ -5,16 +5,25 @@ import ClientRoot from "./client-root";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-sans" });
-
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+// layout.tsx (RootLayout function only)
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className="min-h-dvh bg-gradient-to-b from-[#050a1f] to-[#0a173a] text-white antialiased">
-        <ClientRoot>{children}</ClientRoot>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en" className={fontSans.variable}>
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet" />
+            </head>
+            <body className="min-h-screen bg-background font-sans antialiased">
+                <ClientRoot>{children}</ClientRoot>
+            </body>
+        </html>
+    )
 }
 
 export const metadata: Metadata = {
@@ -55,4 +64,3 @@ export const viewport: Viewport = {
   initialScale: 1,
   themeColor: '#00FFF5',
 };
-            
