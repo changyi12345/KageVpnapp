@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+let MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
+function getMongoUri() {
+  if (MONGODB_URI) return MONGODB_URI;
+  if (process.env.NODE_ENV !== 'production') return 'mongodb://localhost:27017/vpnkey';
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
@@ -38,7 +40,8 @@ async function dbConnect() {
       family: 4 // Use IPv4, skip trying IPv6
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    const uri = getMongoUri();
+    cached.promise = mongoose.connect(uri, opts).then((mongoose) => {
       console.log('MongoDB connected successfully');
       return mongoose;
     });
